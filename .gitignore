@@ -1,0 +1,23 @@
+# macOS system files
+.DS_Store
+
+# Xcode files
+*.xcworkspace
+*.xcuserstate
+*.xcuserdata/
+
+# Derived data & build artifacts
+DerivedData/
+build/
+
+# Swift Package Manager
+Packages/
+.swiftpm/
+*.xcodeproj/project.xcworkspace/
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Environment variables & Secrets
+.env
