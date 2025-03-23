@@ -9,11 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Spain", "UK", "Ukraine", "US", "Monaco"].shuffled()
+    @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Monaco", "Nigeria", "Poland", "Spain", "UK", "Ukraine", "US"]
     @State private var correctAnswer = Int.random(in: 0...2)
     
     @State private var showingScore = false
     @State private var scoreTitle = ""
+    @State private var score = 0
+    @State private var questionsAnswered = 0
     
     var body: some View {
         ZStack {
@@ -57,7 +59,7 @@ struct ContentView: View {
                 Spacer()
                 Spacer()
                 
-                Text("Score: ???")
+                Text("Score: \(score) / \(questionsAnswered)")
                     .foregroundStyle(.white)
                     .font(.title.bold())
                 
@@ -67,18 +69,21 @@ struct ContentView: View {
             .padding()
         }
         .alert(scoreTitle, isPresented: $showingScore){
+            Button("Reset", action: resetGame)
             Button("Continue", action: askQuestion)
         } message: {
-            Text("Your score is: ???")
+            Text("Your score is: \(score) / \(questionsAnswered)")
         }
     }
     
     
     func flagTapped(_ number: Int) {
+        questionsAnswered += 1
         if number == correctAnswer {
             scoreTitle = "Correct"
+            score += 1
         } else {
-            scoreTitle = "Wrong! The correct answer is \(countries[correctAnswer])"
+            scoreTitle = "Wrong!"
         }
         
         showingScore = true
@@ -86,7 +91,12 @@ struct ContentView: View {
     
     func askQuestion(){
         countries.shuffle()
-        correctAnswer = Int.random(in: 0...3)
+        correctAnswer = Int.random(in: 0...2)
+    }
+    func resetGame(){
+        score = 0
+        questionsAnswered = 0
+        askQuestion()
     }
 }
 
